@@ -1,18 +1,19 @@
-library flutter_datetime_picker;
+library flutter_datetime_picker_optional;
 
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_datetime_picker/src/datetime_picker_theme.dart';
-import 'package:flutter_datetime_picker/src/date_model.dart';
-import 'package:flutter_datetime_picker/src/i18n_model.dart';
+import 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
+import 'package:flutter_datetime_picker_optional/src/date_model.dart';
+import 'package:flutter_datetime_picker_optional/src/i18n_model.dart';
 
-export 'package:flutter_datetime_picker/src/datetime_picker_theme.dart';
-export 'package:flutter_datetime_picker/src/date_model.dart';
-export 'package:flutter_datetime_picker/src/i18n_model.dart';
+export 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
+export 'package:flutter_datetime_picker_optional/src/date_model.dart';
+export 'package:flutter_datetime_picker_optional/src/i18n_model.dart';
 
-typedef DateChangedCallback(DateTime time);
+typedef DateChangedCallback(
+    DateTime time, bool dayOptional, bool monthOptional);
 typedef DateCancelledCallback();
 typedef String? StringAtIndexCallBack(int index);
 
@@ -283,12 +284,19 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
   void refreshScrollOffset() {
 //    print('refreshScrollOffset ${widget.pickerModel.currentRightIndex()}');
+    print(widget.pickerModel.currentLeftIndex());
+    print(widget.pickerModel.currentLeftIndex());
+    print(
+        "widget.pickerModel.finalTime()---------------------${widget.pickerModel.finalTime()}");
+    print(widget.pickerModel);
     leftScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentLeftIndex());
     middleScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentMiddleIndex());
     rightScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentRightIndex());
+    print(widget.pickerModel);
+    print(widget.pickerModel);
   }
 
   @override
@@ -322,7 +330,21 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
   void _notifyDateChanged() {
     if (widget.onChanged != null) {
-      widget.onChanged!(widget.pickerModel.finalTime()!);
+      final bool monthOptionalStatus = widget.pickerModel
+              .middleStringAtIndex(widget.pickerModel.currentMiddleIndex()) ==
+          "Optional";
+      final bool dayOptionalStatus = widget.pickerModel
+              .rightStringAtIndex(widget.pickerModel.currentRightIndex()) ==
+          "Optional";
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      print(widget.pickerModel);
+      widget.onChanged!(widget.pickerModel.finalTime()!, dayOptionalStatus,
+          monthOptionalStatus);
     }
   }
 
@@ -512,7 +534,33 @@ class _DatePickerState extends State<_DatePickerComponent> {
               onPressed: () {
                 Navigator.pop(context, widget.pickerModel.finalTime());
                 if (widget.route.onConfirm != null) {
-                  widget.route.onConfirm!(widget.pickerModel.finalTime()!);
+                  int value = widget.pickerModel.middleStringAtIndex(
+                              widget.pickerModel.currentMiddleIndex()) !=
+                          "Optional"
+                      ? widget.pickerModel.currentMiddleIndex() + 1
+                      : widget.pickerModel.currentMiddleIndex() - 1;
+                  bool monthOptionalStatus = widget.pickerModel
+                          .middleStringAtIndex(
+                              widget.pickerModel.currentMiddleIndex()) ==
+                      "Optional";
+                  bool dayOptionalStatus = widget.pickerModel
+                          .rightStringAtIndex(
+                              widget.pickerModel.currentRightIndex()) ==
+                      "Optional";
+                  DateTime? time = widget.pickerModel.finalTime();
+                  DateTime temp = new DateTime(
+                      int.parse(
+                          "${widget.pickerModel.leftStringAtIndex(widget.pickerModel.currentLeftIndex())}"),
+                      value,
+                      time!.day,
+                      time.hour,
+                      time.minute,
+                      time.second,
+                      time.millisecond,
+                      time.microsecond);
+                  Navigator.pop(context, temp);
+                  widget.route.onConfirm!(
+                      temp, dayOptionalStatus, monthOptionalStatus);
                 }
               },
             ),

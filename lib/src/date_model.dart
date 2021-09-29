@@ -1,5 +1,5 @@
-import 'package:flutter_datetime_picker/src/date_format.dart';
-import 'package:flutter_datetime_picker/src/i18n_model.dart';
+import 'package:flutter_datetime_picker_optional/src/date_format.dart';
+import 'package:flutter_datetime_picker_optional/src/i18n_model.dart';
 import 'datetime_util.dart';
 import 'dart:math';
 
@@ -197,6 +197,7 @@ class DatePickerModel extends CommonPickerModel {
     this.middleList = List.generate(maxMonth - minMonth + 1, (int index) {
       return '${_localeMonth(minMonth + index)}';
     });
+    this.middleList.add("Optional");
   }
 
   void _fillRightLists() {
@@ -205,6 +206,7 @@ class DatePickerModel extends CommonPickerModel {
     this.rightList = List.generate(maxDay - minDay + 1, (int index) {
       return '${minDay + index}${_localeDay()}';
     });
+    this.rightList.add("Optional");
   }
 
   @override
@@ -259,53 +261,58 @@ class DatePickerModel extends CommonPickerModel {
 
   @override
   void setMiddleIndex(int index) {
-    super.setMiddleIndex(index);
     //adjust right
-    int minMonth = _minMonthOfCurrentYear();
-    int destMonth = minMonth + index;
-    DateTime newTime;
-    //change date time
-    int dayCount = calcDateCount(currentTime.year, destMonth);
-    newTime = currentTime.isUtc
-        ? DateTime.utc(
-            currentTime.year,
-            destMonth,
-            currentTime.day <= dayCount ? currentTime.day : dayCount,
-          )
-        : DateTime(
-            currentTime.year,
-            destMonth,
-            currentTime.day <= dayCount ? currentTime.day : dayCount,
-          );
-    //min/max check
-    if (newTime.isAfter(maxTime)) {
-      currentTime = maxTime;
-    } else if (newTime.isBefore(minTime)) {
-      currentTime = minTime;
-    } else {
-      currentTime = newTime;
-    }
+    if (index != 12) {
+      super.setMiddleIndex(index);
+      int minMonth = _minMonthOfCurrentYear();
+      int destMonth = minMonth + index;
+      DateTime newTime;
+      //change date time
+      int dayCount = calcDateCount(currentTime.year, destMonth);
+      newTime = currentTime.isUtc
+          ? DateTime.utc(
+              currentTime.year,
+              destMonth,
+              currentTime.day <= dayCount ? currentTime.day : dayCount,
+            )
+          : DateTime(
+              currentTime.year,
+              destMonth,
+              currentTime.day <= dayCount ? currentTime.day : dayCount,
+            );
+      //min/max check
+      if (newTime.isAfter(maxTime)) {
+        currentTime = maxTime;
+      } else if (newTime.isBefore(minTime)) {
+        currentTime = minTime;
+      } else {
+        currentTime = newTime;
+      }
 
-    _fillRightLists();
-    int minDay = _minDayOfCurrentMonth();
-    _currentRightIndex = currentTime.day - minDay;
+      _fillRightLists();
+      int minDay = _minDayOfCurrentMonth();
+      _currentRightIndex = currentTime.day - minDay;
+    }
   }
 
   @override
   void setRightIndex(int index) {
-    super.setRightIndex(index);
+    int maxDay = _maxDayOfCurrentMonth();
     int minDay = _minDayOfCurrentMonth();
-    currentTime = currentTime.isUtc
-        ? DateTime.utc(
-            currentTime.year,
-            currentTime.month,
-            minDay + index,
-          )
-        : DateTime(
-            currentTime.year,
-            currentTime.month,
-            minDay + index,
-          );
+    if (maxDay - 1 >= index && minDay - 1 <= index) {
+      super.setRightIndex(index);
+      currentTime = currentTime.isUtc
+          ? DateTime.utc(
+              currentTime.year,
+              currentTime.month,
+              minDay + index,
+            )
+          : DateTime(
+              currentTime.year,
+              currentTime.month,
+              minDay + index,
+            );
+    }
   }
 
   @override
