@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
 import 'package:flutter_datetime_picker_optional/src/date_model.dart';
 import 'package:flutter_datetime_picker_optional/src/i18n_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 export 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
 export 'package:flutter_datetime_picker_optional/src/date_model.dart';
@@ -284,19 +285,12 @@ class _DatePickerState extends State<_DatePickerComponent> {
 
   void refreshScrollOffset() {
 //    print('refreshScrollOffset ${widget.pickerModel.currentRightIndex()}');
-    print(widget.pickerModel.currentLeftIndex());
-    print(widget.pickerModel.currentLeftIndex());
-    print(
-        "widget.pickerModel.finalTime()---------------------${widget.pickerModel.finalTime()}");
-    print(widget.pickerModel);
     leftScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentLeftIndex());
     middleScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentMiddleIndex());
     rightScrollCtrl = FixedExtentScrollController(
         initialItem: widget.pickerModel.currentRightIndex());
-    print(widget.pickerModel);
-    print(widget.pickerModel);
   }
 
   @override
@@ -307,7 +301,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
         animation: widget.route.animation!,
         builder: (BuildContext context, Widget? child) {
           final double bottomPadding = MediaQuery.of(context).padding.bottom;
-          return ClipRect(
+          return ClipRRect(
             child: CustomSingleChildLayout(
               delegate: _BottomPickerLayout(
                 widget.route.animation!.value,
@@ -317,7 +311,10 @@ class _DatePickerState extends State<_DatePickerComponent> {
               ),
               child: GestureDetector(
                 child: Material(
-                  color: theme.backgroundColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.pink,
                   child: _renderPickerView(theme),
                 ),
               ),
@@ -336,13 +333,6 @@ class _DatePickerState extends State<_DatePickerComponent> {
       final bool dayOptionalStatus = widget.pickerModel
               .rightStringAtIndex(widget.pickerModel.currentRightIndex()) ==
           "Optional";
-      print(widget.pickerModel);
-      print(widget.pickerModel);
-      print(widget.pickerModel);
-      print(widget.pickerModel);
-      print(widget.pickerModel);
-      print(widget.pickerModel);
-      print(widget.pickerModel);
       widget.onChanged!(widget.pickerModel.finalTime()!, dayOptionalStatus,
           monthOptionalStatus);
     }
@@ -500,19 +490,25 @@ class _DatePickerState extends State<_DatePickerComponent> {
     return Container(
       height: theme.titleHeight,
       decoration: BoxDecoration(
-        color: theme.headerColor ?? theme.backgroundColor,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        color: Colors.white,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
             height: theme.titleHeight,
+            padding: EdgeInsets.only(top: 3, bottom: 3, right: 15, left: 15),
             child: CupertinoButton(
               pressedOpacity: 0.3,
               padding: EdgeInsetsDirectional.only(start: 16, top: 0),
               child: Text(
                 '$cancel',
-                style: theme.cancelStyle,
+                style: GoogleFonts.lato(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Color(0xff8F9BB3)),
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -523,14 +519,29 @@ class _DatePickerState extends State<_DatePickerComponent> {
             ),
           ),
           Container(
-            height: theme.titleHeight,
+            // height: theme.titleHeight,
+            margin: EdgeInsets.only(right: 20),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            height: 24,
+            width: 75,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Color.fromRGBO(44, 51, 73, 0.16),
+                    blurRadius: 8,
+                    spreadRadius: 0)
+              ],
+              borderRadius: BorderRadius.circular(05),
+            ),
             child: CupertinoButton(
               pressedOpacity: 0.3,
-              padding: EdgeInsetsDirectional.only(end: 16, top: 0),
-              child: Text(
-                '$done',
-                style: theme.doneStyle,
-              ),
+              padding: EdgeInsetsDirectional.only(end: 0, top: 0),
+              child: Text('$done',
+                  style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xff3366FF))),
               onPressed: () {
                 Navigator.pop(context, widget.pickerModel.finalTime());
                 if (widget.route.onConfirm != null) {
