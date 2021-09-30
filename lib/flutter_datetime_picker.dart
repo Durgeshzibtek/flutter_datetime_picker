@@ -7,7 +7,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
 import 'package:flutter_datetime_picker_optional/src/date_model.dart';
 import 'package:flutter_datetime_picker_optional/src/i18n_model.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 export 'package:flutter_datetime_picker_optional/src/datetime_picker_theme.dart';
 export 'package:flutter_datetime_picker_optional/src/date_model.dart';
@@ -505,7 +504,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
               padding: EdgeInsetsDirectional.only(start: 16, top: 0),
               child: Text(
                 '$cancel',
-                style: GoogleFonts.lato(
+                style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Color(0xff8F9BB3)),
@@ -538,7 +537,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
               pressedOpacity: 0.3,
               padding: EdgeInsetsDirectional.only(end: 0, top: 0),
               child: Text('$done',
-                  style: GoogleFonts.lato(
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: Color(0xff3366FF))),
