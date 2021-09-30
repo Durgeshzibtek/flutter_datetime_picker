@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             TextButton(
                 onPressed: () {
-                  DatePickerOptional.showDatePicker(context,
+                  DatePicker.showDatePicker(context,
                       onChanged:
                           (date, dayOptionalStatus, monthOptionalStatus) {},
                       onConfirm:

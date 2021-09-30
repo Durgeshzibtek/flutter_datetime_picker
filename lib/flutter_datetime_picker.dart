@@ -17,7 +17,7 @@ typedef DateChangedCallback(
 typedef DateCancelledCallback();
 typedef String? StringAtIndexCallBack(int index);
 
-class DatePickerOptional {
+class DatePicker {
   ///
   /// Display date picker bottom sheet.
   ///
