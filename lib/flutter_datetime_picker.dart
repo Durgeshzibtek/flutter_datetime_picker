@@ -542,7 +542,6 @@ class _DatePickerState extends State<_DatePickerComponent> {
                       fontSize: 16,
                       color: Color(0xff3366FF))),
               onPressed: () {
-                Navigator.pop(context, widget.pickerModel.finalTime());
                 if (widget.route.onConfirm != null) {
                   int value = widget.pickerModel.middleStringAtIndex(
                               widget.pickerModel.currentMiddleIndex()) !=
