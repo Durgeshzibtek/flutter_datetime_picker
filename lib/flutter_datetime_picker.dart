@@ -313,7 +313,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
-                  color: Colors.pink,
+                  color: Colors.white,
                   child: _renderPickerView(theme),
                 ),
               ),
