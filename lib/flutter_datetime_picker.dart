@@ -560,9 +560,9 @@ class _DatePickerState extends State<_DatePickerComponent> {
                   DateTime temp = new DateTime(
                       int.parse(
                           "${widget.pickerModel.leftStringAtIndex(widget.pickerModel.currentLeftIndex())}"),
-                      value,
-                      time!.day,
-                      time.hour,
+                      monthOptionalStatus ? 1 : value,
+                      dayOptionalStatus ? 1 : time!.day,
+                      time!.hour,
                       time.minute,
                       time.second,
                       time.millisecond,

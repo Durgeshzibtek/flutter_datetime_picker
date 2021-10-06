@@ -297,9 +297,9 @@ class DatePickerModel extends CommonPickerModel {
 
   @override
   void setRightIndex(int index) {
-    int maxDay = _maxDayOfCurrentMonth();
+    int maxDay = _maxDayOfCurrentMonth() + 1;
     int minDay = _minDayOfCurrentMonth();
-    if (maxDay - 1 >= index && minDay - 1 <= index) {
+    if (maxDay >= index && minDay - 1 <= index) {
       super.setRightIndex(index);
       currentTime = currentTime.isUtc
           ? DateTime.utc(
