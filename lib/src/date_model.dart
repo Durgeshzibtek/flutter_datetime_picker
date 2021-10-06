@@ -262,7 +262,7 @@ class DatePickerModel extends CommonPickerModel {
   @override
   void setMiddleIndex(int index) {
     //adjust right
-    if (index != 12) {
+    if (index <= 12) {
       super.setMiddleIndex(index);
       int minMonth = _minMonthOfCurrentYear();
       int destMonth = minMonth + index;

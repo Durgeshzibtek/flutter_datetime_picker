@@ -567,6 +567,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
                       time.second,
                       time.millisecond,
                       time.microsecond);
+                  print(temp);
                   Navigator.pop(context, temp);
                   widget.route.onConfirm!(
                       temp, dayOptionalStatus, monthOptionalStatus);
