@@ -310,9 +310,9 @@ class _DatePickerState extends State<_DatePickerComponent> {
               ),
               child: GestureDetector(
                 child: Material(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
+                  // borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(20),
+                  //     topRight: Radius.circular(20)),
                   color: Colors.white,
                   child: _renderPickerView(theme),
                 ),
@@ -490,7 +490,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
       height: theme.titleHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20), topLeft: Radius.circular(0)),
+            topRight: Radius.circular(0), topLeft: Radius.circular(0)),
         color: Colors.black,
       ),
       child: Row(
@@ -508,7 +508,7 @@ class _DatePickerState extends State<_DatePickerComponent> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: Color(0xff8F9BB3)),
+                    color: Color(0xff3c3c43)),
               ),
               onPressed: () {
                 Navigator.pop(context);
